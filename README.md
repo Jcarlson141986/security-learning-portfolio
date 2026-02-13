@@ -9,6 +9,27 @@ This repository documents my hands-on cybersecurity learning journey with a focu
 
 All content is based on legal training platforms (TryHackMe, Hack The Box Academy, labs, and coursework).
 
+---
+
+## 🔥 Featured Web Application Security Project
+
+### Authenticated Authorization Assessment
+
+Structured authenticated assessment validating:
+
+- Role-Based Access Control (RBAC) enforcement
+- Server-side authorization checks
+- Privilege escalation resistance (horizontal & vertical)
+- CSRF protection implementation
+- Parameter tampering controls
+
+📄 [View Full Project →](02-web-application-security/authenticated-authorization-assessment)
+
+---
+
+## Structure
+
+
 ## Structure
 
 - `/tryhackme` — THM room notes and summaries
