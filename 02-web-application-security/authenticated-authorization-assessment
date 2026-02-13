@@ -1,1 +1,134 @@
+# Authenticated Web Application Authorization Assessment
+
+## Overview
+
+This project documents a structured authenticated security assessment performed against a role-based web application in a controlled test environment.
+
+The objective was to evaluate:
+
+- Role-Based Access Control (RBAC)
+- Server-side authorization enforcement
+- CSRF protection mechanisms
+- Parameter tampering resistance
+- Session handling behavior
+
+Testing was conducted using OWASP ZAP in proxy mode with manual request replay validation.
+
+---
+
+## Scope
+
+Application: AlphaTimeHR (Test Environment)
+
+Roles Tested:
+- Employee
+- Supervisor / Manager
+
+Focus Areas:
+- Horizontal privilege escalation
+- Vertical privilege escalation
+- Sensitive action protection
+- CSRF enforcement
+- Parameter manipulation resistance
+
+---
+
+## Key Security Validations Performed
+
+### 1. Role Abuse Testing
+
+- Captured supervisor-only export request
+- Replayed request using a lower-privileged session
+- Confirmed server-side authorization enforcement (access denied)
+
+Result:
+No vertical privilege escalation observed.
+
+---
+
+### 2. Sensitive Action Validation
+
+Most sensitive action tested:
+- Report export endpoint
+
+Result:
+- Unauthorized replay attempts rejected
+- No sensitive data leakage
+- Session enforcement validated
+
+---
+
+### 3. Parameter Tampering Testing
+
+Endpoints tested:
+- `/clock-in`
+- `/clock-out`
+
+Manipulations attempted:
+- Modified form parameters
+- Altered project identifiers
+- Attempted malformed requests
+
+Result:
+- 403 Forbidden responses
+- CSRF verification enforced
+- No unauthorized time manipulation allowed
+
+---
+
+### 4. CSRF Protection Validation
+
+Tests performed:
+- Modified CSRF token
+- Removed CSRF token completely
+
+Result:
+- 403 Forbidden
+- "CSRF verification failed"
+- Token missing or invalid requests rejected
+
+---
+
+## Security Posture Summary
+
+The application demonstrated:
+
+- Proper server-side authorization enforcement
+- Effective RBAC separation between roles
+- Correct CSRF protection implementation
+- Parameter tampering resistance
+- No privilege escalation identified
+
+No Critical or High severity vulnerabilities were discovered during this assessment phase.
+
+---
+
+## Severity Classification Model
+
+- **Critical** – Remote compromise or full data exposure
+- **High** – Privilege escalation or unauthorized sensitive data access
+- **Medium** – Security control bypass requiring specific conditions
+- **Low** – Minor hardening recommendation
+- **Informational** – Best practice observation
+
+---
+
+## Tools Used
+
+- OWASP ZAP (Proxy + Manual Request Editor)
+- Firefox (proxy configured)
+- Manual request replay testing
+
+---
+
+## Conclusion
+
+This authenticated authorization assessment phase is complete.
+
+The tested application demonstrates strong role-based authorization enforcement and properly implemented CSRF protections within the tested scope.
+
+Future assessment phases may include:
+- Business logic abuse testing
+- Automated scanning validation
+- Advanced parameter fuzzing
 
