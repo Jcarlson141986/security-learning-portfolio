@@ -29,9 +29,6 @@ Structured authenticated assessment validating:
 
 ## Structure
 
-
-## Structure
-
 - `/tryhackme` — THM room notes and summaries
 - `/hackthebox` — HTB Academy modules and learning takeaways
 - `/owasp` — OWASP Top 10 write-ups and examples
