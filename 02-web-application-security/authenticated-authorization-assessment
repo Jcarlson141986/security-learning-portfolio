@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project documents a structured authenticated security assessment performed against a role-based web application in a controlled test environment.
+This project documents a structured authenticated security assessment performed against a role-based web application in a controlled lab environment.
 
 The objective was to evaluate:
 
@@ -12,13 +12,17 @@ The objective was to evaluate:
 - Parameter tampering resistance
 - Session handling behavior
 
-Testing was conducted using OWASP ZAP in proxy mode with manual request replay validation.
+Testing was conducted using OWASP ZAP in proxy mode with manual request replay validation techniques.
 
 ---
 
 ## Scope
 
-Application: AlphaTimeHR (Test Environment)
+This assessment was performed against a simulated HR-style web application deployed in a private lab environment for professional development purposes.
+
+No production systems, real domains, or organizational data were involved.
+
+Application: Simulated HR Web Application (Lab Environment)
 
 Roles Tested:
 - Employee
@@ -31,79 +35,90 @@ Focus Areas:
 - CSRF enforcement
 - Parameter manipulation resistance
 
+All endpoints are referenced generically (e.g., `/api/clock-in`, `/api/clock-out`) to maintain environment neutrality.
+
 ---
 
 ## Key Security Validations Performed
 
-### 1. Role Abuse Testing
+### 1. Role Abuse Testing (Vertical Privilege Escalation)
 
-- Captured supervisor-only export request
-- Replayed request using a lower-privileged session
-- Confirmed server-side authorization enforcement (access denied)
+Test Method:
+- Captured a supervisor-only export request
+- Replayed the request using a lower-privileged session
+- Validated server-side authorization enforcement
 
 Result:
-No vertical privilege escalation observed.
+- Access denied
+- No vertical privilege escalation observed
+- Server-side role validation confirmed
 
 ---
 
 ### 2. Sensitive Action Validation
 
-Most sensitive action tested:
+Sensitive functionality tested:
 - Report export endpoint
 
+Test Method:
+- Unauthorized request replay attempts
+- Session manipulation attempts
+
 Result:
-- Unauthorized replay attempts rejected
-- No sensitive data leakage
-- Session enforcement validated
+- Unauthorized requests rejected
+- No sensitive data leakage observed
+- Session enforcement properly validated
 
 ---
 
 ### 3. Parameter Tampering Testing
 
 Endpoints tested:
-- `/clock-in`
-- `/clock-out`
+- `/api/clock-in`
+- `/api/clock-out`
 
 Manipulations attempted:
 - Modified form parameters
 - Altered project identifiers
-- Attempted malformed requests
+- Submitted malformed requests
 
 Result:
-- 403 Forbidden responses
+- 403 Forbidden responses returned
 - CSRF verification enforced
-- No unauthorized time manipulation allowed
+- No unauthorized time or data manipulation permitted
 
 ---
 
 ### 4. CSRF Protection Validation
 
 Tests performed:
-- Modified CSRF token
-- Removed CSRF token completely
+- Modified CSRF token values
+- Removed CSRF token entirely
 
 Result:
-- 403 Forbidden
-- "CSRF verification failed"
-- Token missing or invalid requests rejected
+- 403 Forbidden responses
+- Explicit CSRF validation failures observed
+- Token missing or invalid requests properly rejected
 
 ---
 
 ## Security Posture Summary
 
-The application demonstrated:
+Within the defined scope, the application demonstrated:
 
 - Proper server-side authorization enforcement
 - Effective RBAC separation between roles
 - Correct CSRF protection implementation
 - Parameter tampering resistance
-- No privilege escalation identified
+- No observable privilege escalation vectors
 
-No Critical or High severity vulnerabilities were discovered during this assessment phase.
+No Critical or High severity vulnerabilities were identified during this assessment phase.
 
 ---
 
 ## Severity Classification Model
+
+The following severity model was used for classification:
 
 - **Critical** – Remote compromise or full data exposure
 - **High** – Privilege escalation or unauthorized sensitive data access
@@ -117,7 +132,7 @@ No Critical or High severity vulnerabilities were discovered during this assessm
 
 - OWASP ZAP (Proxy + Manual Request Editor)
 - Firefox (proxy configured)
-- Manual request replay testing
+- Manual authenticated request replay testing
 
 ---
 
@@ -125,10 +140,11 @@ No Critical or High severity vulnerabilities were discovered during this assessm
 
 This authenticated authorization assessment phase is complete.
 
-The tested application demonstrates strong role-based authorization enforcement and properly implemented CSRF protections within the tested scope.
+The tested lab application demonstrates strong role-based authorization enforcement and properly implemented CSRF protections within the defined scope.
 
 Future assessment phases may include:
+
 - Business logic abuse testing
 - Automated scanning validation
 - Advanced parameter fuzzing
-
+- Session lifecycle edge-case testing
